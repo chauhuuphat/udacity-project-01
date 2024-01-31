@@ -1,0 +1,19 @@
+1. Minimum RTO for a single AZ outage:
+==> We assume the single AZ down placed active MySQL DB, failover to standby DB instance in other AZ will be performed automatically. Esimate time to switch and effect to connectivity is few mins
+2. Minimum RTO for a single region outage:
+
+    Problem happen: 00:00
+    The amount of time pass from service to alert system: 00:03
+    Alert sent to team operation: 00:05
+    Operation team log-on to system: 00:20
+    Analytics the problem follow document troubleshooting and root cause is discoverd: 00:30 (because downtime of region will easy to check)
+    Promote Read replicate to primary DB, and update connection string for application connect new DB endpoint: 00:50
+    Done testing and verify after change: 01:00
+==> Total time: 01:00
+
+
+3. Minimum RPO for a single AZ outage
+==> In this case, we do not have data lost because DB will synchronous replicate
+
+4. Minimum RPO for a single region outage
+==> In this case, we  have data lost because DB will Asynchronous replicate, few mins data lost.

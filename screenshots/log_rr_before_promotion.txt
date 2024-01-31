@@ -1,0 +1,51 @@
+[ec2-user@ip-172-16-1-165 ~]$ mysql -h rds-read-replicate-mysqldbreadreplica-hnij7inwqkdk.cxgkcglvysjy.us-west-2.rds.amazonaws.com -u admin -D udacity -p
+Enter password: 
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 146
+Server version: 8.0.35 Source distribution
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
+| udacity            |
++--------------------+
+5 rows in set (0.01 sec)
+
+mysql> USE udacity
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_udacity |
++-------------------+
+| employees         |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM employees;
++----+-------------+-------------------+----------+
+| id | name        | position          | salary   |
++----+-------------+-------------------+----------+
+|  1 | Alice Smith | Software Engineer | 70000.00 |
+|  2 | Bob Johnson | Project Manager   | 85000.00 |
++----+-------------+-------------------+----------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO employees (name, position, salary) VALUES ('Phillip Chau', 'System Engineer',170000.00);
+ERROR 1290 (HY000): The MySQL server is running with the --read-only option so it cannot execute this statement
+mysql> 

@@ -1,0 +1,42 @@
+Resources:
+  DBSubnetGroup:
+    Type: 'AWS::RDS::DBSubnetGroup'
+    Properties:
+      DBSubnetGroupDescription: 'primary-DB-SubnetGroup'
+      SubnetIds:
+        - 'subnet-07604361a75922a49'
+        - 'subnet-0ee2319905aa4d516'
+      Tags:
+        - Key: 'Name'
+          Value: 'primary-DB-SubnetGroup'
+
+  MySQLDBInstance:
+    Type: 'AWS::RDS::DBInstance'
+    Properties:
+      DBInstanceClass: 'db.t3.small'
+      AllocatedStorage: '20'
+      Engine: 'mysql'
+      DBName: 'udacity'
+      MultiAZ: true
+      MasterUsername: 'admin'  
+      MasterUserPassword: 'Password123'
+      DBSubnetGroupName: !Ref DBSubnetGroup
+      VPCSecurityGroups:
+        - 'sg-0217608997b8e6f4e'
+      BackupRetentionPeriod: 7
+      PreferredBackupWindow: '03:00-03:30'
+      PreferredMaintenanceWindow: 'Sun:04:00-Sun:04:30'
+      Tags:
+        - Key: 'Name'
+          Value: 'primary-DB-Udacity'
+
+Outputs:
+  DBInstanceId:
+    Description: 'The Instance ID of the RDS instance'
+    Value: !Ref MySQLDBInstance
+  DBInstanceEndpoint:
+    Description: 'The endpoint of the RDS instance'
+    Value: !GetAtt MySQLDBInstance.Endpoint.Address
+  DBInstanceARN:
+    Description: 'The ARN of the RDS instance'
+    Value: !GetAtt MySQLDBInstance.DBInstanceArn

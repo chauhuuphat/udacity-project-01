@@ -1,0 +1,48 @@
+[ec2-user@ip-10-1-10-251 ~]$ mysql -h rds-primary-mysqldbinstance-ajjl60eedc6o.cxrqsii2posh.us-east-1.rds.amazonaws.com -u admin -D udacity -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 153
+Server version: 8.0.35 Source distribution
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> CREATE TABLE employees (
+    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     name VARCHAR(100),
+    ->     position VARCHAR(100),
+    ->     salary DECIMAL(10, 2)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> 
+mysql> INSERT INTO employees (name, position, salary) VALUES ('Alice Smith', 'Software Engineer', 70000.00);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO employees (name, position, salary) VALUES ('Bob Johnson', 'Project Manager', 85000.00);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select & FROM employees
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '& FROM employees' at line 1
+mysql> select * FROM employees;
++----+-------------+-------------------+----------+
+| id | name        | position          | salary   |
++----+-------------+-------------------+----------+
+|  1 | Alice Smith | Software Engineer | 70000.00 |
+|  2 | Bob Johnson | Project Manager   | 85000.00 |
++----+-------------+-------------------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select * FROM employees WHERE position='Software Engineer';
++----+-------------+-------------------+----------+
+| id | name        | position          | salary   |
++----+-------------+-------------------+----------+
+|  1 | Alice Smith | Software Engineer | 70000.00 |
++----+-------------+-------------------+----------+
+1 row in set (0.00 sec)

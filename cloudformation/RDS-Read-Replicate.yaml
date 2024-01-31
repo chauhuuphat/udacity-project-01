@@ -1,0 +1,36 @@
+Resources:
+  MyDBReplicaSubnetGroup:
+    Type: 'AWS::RDS::DBSubnetGroup'
+    Properties:
+      DBSubnetGroupDescription: 'Replica DB Subnet Group'
+      SubnetIds:
+        - 'subnet-0540f41f7471d5ec2'
+        - 'subnet-0e6f15e2056df9d91'
+      Tags:
+        - Key: 'Name'
+          Value: 'secondary-DB-SubnetGroup'
+
+  MySQLDBReadReplica:
+    Type: 'AWS::RDS::DBInstance'
+    Properties:
+      SourceDBInstanceIdentifier: "arn:aws:rds:us-east-1:170044603817:db:rds-primary-mysqldbinstance-ajjl60eedc6o"
+      DBInstanceClass: 'db.t3.small'
+      Engine: 'mysql'
+      DBSubnetGroupName: !Ref MyDBReplicaSubnetGroup
+      VPCSecurityGroups:
+        - 'sg-0296899655a794cb3'
+      PubliclyAccessible: false
+      MultiAZ: true
+      StorageType: 'gp2'
+      CopyTagsToSnapshot: true
+
+Outputs:
+  ReadReplicaDBInstanceId:
+    Description: 'The Instance ID of the RDS Read Replica'
+    Value: !Ref MySQLDBReadReplica
+  ReadReplicaDBInstanceEndpoint:
+    Description: 'The endpoint of the RDS Read Replica'
+    Value: !GetAtt MySQLDBReadReplica.Endpoint.Address
+  DBInstanceARN:
+    Description: 'The ARN of the RDS instance'
+    Value: !GetAtt MySQLDBReadReplica.DBInstanceArn
